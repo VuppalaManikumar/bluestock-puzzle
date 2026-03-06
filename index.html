@@ -1,41 +1,47 @@
 <!DOCTYPE html>
 <html>
-
 <head>
-    <title>Bluestock Puzzle</title>
-    <link rel="stylesheet" href="brand.css">
-
+<title>Bluestock Puzzle</title>
+<link rel="stylesheet" href="brand.css">
 </head>
 
 <body>
 
-    <div class="navbar">
-        <h2>Bluestock Puzzle</h2>
-        <div class="nav-links">
-            <a href="#">Home</a>
-            <a href="#">Puzzles</a>
-            <a href="#">Leaderboard</a>
-        </div>
-    </div>
+<div class="navbar">
+<h2>Bluestock Puzzle</h2>
 
-    <div class="container">
+<div class="nav-links">
+<a href="#">Home</a>
+<a href="#">Puzzles</a>
+<a href="#">Leaderboard</a>
+</div>
+</div>
 
-        <h1>Daily Puzzle Game</h1>
+<div class="container">
 
-        <div class="card">
-            <p>Solve today's puzzle and maintain your streak.</p>
+<h1>Daily Puzzle Game</h1>
 
-            <button class="btn-primary">Start Puzzle</button>
-            <button class="btn-secondary">View Heatmap</button>
-            <button class="btn-accent">Submit Score</button>
+<div class="card">
 
-        </div>
-        <div class="heatmap-container">
-            <h2>Puzzle Activity</h2>
-            <div id="heatmap"></div>
-        </div>
-    </div>
-    <script src="script.js"></script>
+<p>Solve today's puzzle and maintain your streak.</p>
+
+<button class="btn-primary">Start Puzzle</button>
+<button class="btn-secondary">View Heatmap</button>
+<button class="btn-accent">Submit Score</button>
+
+<p id="puzzle"></p>
+
+</div>
+
+<div class="heatmap-container">
+<h2>Puzzle Activity</h2>
+<div id="heatmap"></div>
+</div>
+
+</div>
+
+<script src="script.js"></script>
+<script src="heatmap.js"></script>
+
 </body>
-
 </html>
