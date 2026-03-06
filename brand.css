@@ -1,0 +1,63 @@
+:root {
+    --bs-dark: #222222;
+    --bs-primary: #414BEA;
+    --bs-secondary: #7752FE;
+    --bs-light: #F6F5F5;
+    --bs-white: #FFFFFF;
+    --bs-accent: #F05537;
+}
+
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: var(--bs-light);
+    color: var(--bs-dark);
+}
+
+.navbar {
+    background: var(--bs-primary);
+    color: var(--bs-white);
+    padding: 15px 30px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.nav-links a {
+    color: white;
+    text-decoration: none;
+    margin-left: 20px;
+}
+
+.container {
+    padding: 40px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.btn-primary {
+    background: #414BEA;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+}
+
+.btn-secondary {
+    background: #7752FE;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+}
+
+.btn-accent {
+    background: #F05537;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+}
