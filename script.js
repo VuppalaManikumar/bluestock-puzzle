@@ -1,87 +1,101 @@
-const puzzleElement = document.getElementById("puzzle")
-const streakElement = document.getElementById("streak")
+const puzzleText=document.getElementById("puzzle")
+const timerText=document.getElementById("timer")
+const streakText=document.getElementById("streak")
 
-const startBtn = document.getElementById("startPuzzle")
-const submitBtn = document.getElementById("submitScore")
+const startBtn=document.getElementById("startPuzzle")
+const submitBtn=document.getElementById("submitScore")
+const hintBtn=document.getElementById("hintBtn")
 
-const puzzle = {
-    question: "What comes next: 2, 4, 8, 16, ?",
-    answer: "32"
-}
+let puzzle
+let startTime
 
-function loadPuzzle() {
+function loadPuzzle(){
 
-    const cached = localStorage.getItem("dailyPuzzle")
+puzzle=getDailyPuzzle()
 
-    if (cached) {
+puzzleText.innerText=puzzle.q
 
-        const data = JSON.parse(cached)
-        puzzleElement.innerText = data.question
+startTime=Date.now()
 
-    } else {
-
-        localStorage.setItem("dailyPuzzle", JSON.stringify(puzzle))
-        puzzleElement.innerText = puzzle.question
-
-    }
+timerText.innerText="Timer started"
 
 }
 
-function submitScore() {
+function stopTimer(){
 
-    const answer = prompt("Enter your answer")
-
-    if (!answer) return
-
-    if (answer === puzzle.answer) {
-
-        alert("Correct!")
-
-        const score = Math.floor(Math.random() * 100) + 1
-
-        updateTodayActivity(score)
-
-        calculateStreak()
-
-    } else {
-
-        alert("Wrong Answer")
-
-    }
+const end=Date.now()
+return Math.floor((end-startTime)/1000)
 
 }
 
-function calculateStreak() {
+function calculateScore(time){
 
-    const activity = JSON.parse(localStorage.getItem("activityData") || "{}")
+let score=100-time
 
-    let streak = 0
+if(score<10)score=10
 
-    let current = new Date()
+return score
 
-    while (true) {
-
-        const key = current.toISOString().split("T")[0]
-
-        if (activity[key] && activity[key].solved) {
-
-            streak++
-
-            current.setDate(current.getDate() - 1)
-
-        } else {
-
-            break
-
-        }
-
-    }
-
-    streakElement.innerText = "🔥 Current Streak: " + streak + " days"
 }
 
-startBtn.onclick = loadPuzzle
-submitBtn.onclick = submitScore
+function submitPuzzle(){
 
-loadPuzzle()
+const ans=prompt("Enter answer")
+
+if(ans===puzzle.a){
+
+const time=stopTimer()
+
+const score=calculateScore(time)
+
+alert("Correct! Score:"+score)
+
+saveToday(score,time)
+
+renderHeatmap()
+
+calculateStreak()
+
+syncData()
+
+}else{
+
+alert("Wrong answer")
+
+}
+
+}
+
+function calculateStreak(){
+
+const activity=getActivity()
+
+let streak=0
+let d=new Date()
+
+while(true){
+
+const key=d.toISOString().split("T")[0]
+
+if(activity[key]?.solved){
+streak++
+d.setDate(d.getDate()-1)
+}else{
+break
+}
+
+}
+
+streakText.innerText="🔥 Current Streak: "+streak+" days"
+
+}
+
+function showHint(){
+alert(puzzle.hint)
+}
+
+startBtn.onclick=loadPuzzle
+submitBtn.onclick=submitPuzzle
+hintBtn.onclick=showHint
+
 calculateStreak()
