@@ -1,88 +1,53 @@
-const heatmap = document.getElementById("heatmap")
+const heatmap=document.getElementById("heatmap")
 
-function getActivityData() {
+function intensity(score){
 
-    const data = localStorage.getItem("activityData")
-
-    if (data) {
-        return JSON.parse(data)
-    }
-
-    return {}
-}
-
-function saveActivityData(data) {
-    localStorage.setItem("activityData", JSON.stringify(data))
-}
-
-function calculateIntensity(score) {
-
-    if (score >= 90) return 4
-    if (score >= 70) return 3
-    if (score >= 40) return 2
-    if (score > 0) return 1
-
-    return 0
-}
-
-function generateHeatmap() {
-
-    heatmap.innerHTML = ""
-
-    const activity = getActivityData()
-
-    const days = 365
-
-    const startDate = new Date()
-    startDate.setDate(startDate.getDate() - days)
-
-    for (let i = 0; i < days; i++) {
-
-        const date = new Date(startDate)
-        date.setDate(startDate.getDate() + i)
-
-        const key = date.toISOString().split("T")[0]
-
-        const cell = document.createElement("div")
-        cell.classList.add("heatmap-cell")
-
-        if (activity[key]) {
-
-            const level = calculateIntensity(activity[key].score)
-
-            if (level > 0) {
-                cell.classList.add("level-" + level)
-            }
-
-            cell.title = key + " | Score: " + activity[key].score
-
-        } else {
-
-            cell.title = key + " | No activity"
-
-        }
-
-        heatmap.appendChild(cell)
-    }
+if(score>90)return 4
+if(score>70)return 3
+if(score>40)return 2
+if(score>0)return 1
+return 0
 
 }
 
-function updateTodayActivity(score) {
+function renderHeatmap(){
 
-    const activity = getActivityData()
+heatmap.innerHTML=""
 
-    const today = new Date().toISOString().split("T")[0]
+const activity=getActivity()
 
-    activity[today] = {
-        score: score,
-        solved: true
-    }
+const days=365
+const start=new Date()
+start.setDate(start.getDate()-days)
 
-    saveActivityData(activity)
+for(let i=0;i<days;i++){
 
-    generateHeatmap()
+const d=new Date(start)
+d.setDate(start.getDate()+i)
+
+const key=d.toISOString().split("T")[0]
+
+const cell=document.createElement("div")
+cell.classList.add("heatmap-cell")
+
+if(activity[key]){
+
+const level=intensity(activity[key].score)
+
+if(level>0)cell.classList.add("level-"+level)
+
+cell.title=key+" Score:"+activity[key].score
+
+}else{
+
+cell.title=key
+
 }
 
-generateHeatmap()
+heatmap.appendChild(cell)
 
-window.updateTodayActivity = updateTodayActivity
+}
+
+}
+
+renderHeatmap()
