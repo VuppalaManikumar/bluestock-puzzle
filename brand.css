@@ -101,3 +101,8 @@ body {
 .level-4 {
     background: #216e39;
 }
+
+#streak{
+    margin-top:15px;
+    font-weight:bold;
+}
