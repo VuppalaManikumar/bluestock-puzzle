@@ -1,42 +1,53 @@
 const heatmap=document.getElementById("heatmap")
 
-function intensity(score){
+function intensity(entry){
 
-if(score>90)return 4
-if(score>70)return 3
-if(score>40)return 2
-if(score>0)return 1
-return 0
+if(!entry) return 0
+
+if(entry.score>90) return 4
+if(entry.score>70) return 3
+if(entry.score>40) return 2
+return 1
 
 }
 
 function renderHeatmap(){
 
+getActivity(function(activity){
+
 heatmap.innerHTML=""
 
-const activity=getActivity()
-
 const days=365
+
 const start=new Date()
+
 start.setDate(start.getDate()-days)
 
 for(let i=0;i<days;i++){
 
 const d=new Date(start)
+
 d.setDate(start.getDate()+i)
 
 const key=d.toISOString().split("T")[0]
 
 const cell=document.createElement("div")
+
 cell.classList.add("heatmap-cell")
 
-if(activity[key]){
+const entry=activity[key]
 
-const level=intensity(activity[key].score)
+const level=intensity(entry)
 
-if(level>0)cell.classList.add("level-"+level)
+if(level>0) cell.classList.add("level-"+level)
 
-cell.title=key+" Score:"+activity[key].score
+if(entry){
+
+cell.title=
+key+
+" Score:"+entry.score+
+" Time:"+entry.timeTaken+
+" Difficulty:"+entry.difficulty
 
 }else{
 
@@ -47,6 +58,8 @@ cell.title=key
 heatmap.appendChild(cell)
 
 }
+
+})
 
 }
 
