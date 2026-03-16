@@ -39,19 +39,22 @@ const entry=activity[key]
 
 const level=intensity(entry)
 
-if(level>0) cell.classList.add("level-"+level)
+if(level>0){
+cell.classList.add("level-"+level)
+cell.classList.add("active")
+}
 
 if(entry){
 
 cell.title=
 key+
-" Score:"+entry.score+
-" Time:"+entry.timeTaken+
-" Difficulty:"+entry.difficulty
+"\nScore:"+entry.score+
+"\nTime:"+entry.timeTaken+
+"\nDifficulty:"+entry.difficulty
 
 }else{
 
-cell.title=key
+cell.title=key+"\nNo puzzle solved"
 
 }
 
