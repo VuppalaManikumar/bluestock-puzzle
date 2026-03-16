@@ -1,38 +1,62 @@
-const puzzleText=document.getElementById("puzzle")
-const timerText=document.getElementById("timer")
-const streakText=document.getElementById("streak")
+const puzzleText = document.getElementById("puzzle")
+const timerText = document.getElementById("timer")
+const streakText = document.getElementById("streak")
 
-const startBtn=document.getElementById("startPuzzle")
-const submitBtn=document.getElementById("submitScore")
-const hintBtn=document.getElementById("hintBtn")
+const startBtn = document.getElementById("startPuzzle")
+const submitBtn = document.getElementById("submitScore")
+const hintBtn = document.getElementById("hintBtn")
 
 let puzzle
 let startTime
+let timerInterval
+let puzzleStarted = false
+let hintsUsed = 0
+const MAX_HINTS = 2
 
 function loadPuzzle(){
 
-puzzle=getDailyPuzzle()
+if(puzzleStarted){
+alert("Puzzle already started")
+return
+}
 
-puzzleText.innerText=puzzle.q
+puzzle = getDailyPuzzle()
 
-startTime=Date.now()
+puzzleText.innerText = puzzle.q
 
-timerText.innerText="Timer started"
+startTime = Date.now()
+puzzleStarted = true
+
+timerInterval = setInterval(updateTimer,1000)
+
+}
+
+function updateTimer(){
+
+if(!startTime) return
+
+const now = Date.now()
+const seconds = Math.floor((now-startTime)/1000)
+
+timerText.innerText = "⏱ Time: "+seconds+"s"
 
 }
 
 function stopTimer(){
 
-const end=Date.now()
+clearInterval(timerInterval)
+
+const end = Date.now()
+
 return Math.floor((end-startTime)/1000)
 
 }
 
 function calculateScore(time){
 
-let score=100-time
+let score = 100 - time
 
-if(score<10)score=10
+if(score < 20) score = 20
 
 return score
 
@@ -40,15 +64,28 @@ return score
 
 function submitPuzzle(){
 
-const ans=prompt("Enter answer")
+if(!puzzleStarted){
+alert("Start puzzle first")
+return
+}
 
-if(ans===puzzle.a){
+const today = new Date().toISOString().split("T")[0]
+const activity = getActivity()
 
-const time=stopTimer()
+if(activity[today]?.solved){
+alert("Today's puzzle already completed")
+return
+}
 
-const score=calculateScore(time)
+const ans = prompt("Enter answer")
 
-alert("Correct! Score:"+score)
+if(ans === puzzle.a){
+
+const time = stopTimer()
+
+const score = calculateScore(time)
+
+alert("✅ Correct! Score: "+score)
 
 saveToday(score,time)
 
@@ -60,7 +97,7 @@ syncData()
 
 }else{
 
-alert("Wrong answer")
+alert("❌ Wrong answer")
 
 }
 
@@ -68,34 +105,72 @@ alert("Wrong answer")
 
 function calculateStreak(){
 
-const activity=getActivity()
+const activity = getActivity()
 
-let streak=0
-let d=new Date()
+let streak = 0
+
+let d = new Date()
 
 while(true){
 
-const key=d.toISOString().split("T")[0]
+const key = d.toISOString().split("T")[0]
 
 if(activity[key]?.solved){
+
 streak++
+
 d.setDate(d.getDate()-1)
+
 }else{
+
 break
-}
 
 }
 
-streakText.innerText="🔥 Current Streak: "+streak+" days"
+}
+
+streakText.innerText = "🔥 Current Streak: "+streak+" days"
 
 }
 
 function showHint(){
-alert(puzzle.hint)
+
+if(!puzzleStarted){
+alert("Start puzzle first")
+return
 }
 
-startBtn.onclick=loadPuzzle
-submitBtn.onclick=submitPuzzle
-hintBtn.onclick=showHint
+if(hintsUsed >= MAX_HINTS){
+alert("No hints left today")
+return
+}
+
+hintsUsed++
+
+alert("Hint: "+puzzle.hint)
+
+}
+
+function restoreProgress(){
+
+const activity = getActivity()
+
+const today = new Date().toISOString().split("T")[0]
+
+if(activity[today]?.solved){
+
+puzzleText.innerText = "✔ Puzzle already completed today"
+
+timerText.innerText = "Completed"
+
+}
+
+}
+
+startBtn.onclick = loadPuzzle
+submitBtn.onclick = submitPuzzle
+hintBtn.onclick = showHint
+
+restoreProgress()
 
 calculateStreak()
