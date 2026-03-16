@@ -1,11 +1,8 @@
 function syncData(){
 
 if(!navigator.onLine){
-
 console.log("Offline mode")
-
 return
-
 }
 
 getActivity(function(activity){
