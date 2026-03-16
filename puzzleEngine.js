@@ -4,9 +4,9 @@ const PUZZLES=[
 
 {type:"sequence",q:"3,9,27, ?",a:"81",hint:"Multiply by 3",difficulty:2},
 
-{type:"math",q:"What is 12 × 8 ?",a:"96",hint:"Multiplication",difficulty:1},
+{type:"math",q:"12 × 8 ?",a:"96",hint:"Multiply 12 by 8",difficulty:1},
 
-{type:"logic",q:"If 5 cats catch 5 mice in 5 minutes, how many minutes for 1 cat to catch 1 mouse?",a:"5",hint:"Think proportion",difficulty:3}
+{type:"logic",q:"If 5 cats catch 5 mice in 5 minutes, how many minutes for 1 cat to catch 1 mouse?",a:"5",hint:"Think ratio",difficulty:3}
 
 ]
 
