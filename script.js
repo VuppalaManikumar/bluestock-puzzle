@@ -30,7 +30,7 @@ const now=Date.now()
 
 const seconds=Math.floor((now-startTime)/1000)
 
-timerText.innerText="⏱ Time:"+seconds+"s"
+timerText.innerText="⏱ Time: "+seconds+"s"
 
 }
 
@@ -105,12 +105,14 @@ streak++
 d.setDate(d.getDate()-1)
 
 }else{
+
 break
-}
 
 }
 
-streakText.innerText="🔥 Current Streak:"+streak+" days"
+}
+
+streakText.innerText="🔥 Current Streak: "+streak+" days"
 
 })
 
@@ -128,7 +130,7 @@ return
 
 hintsUsed++
 
-alert("Hint:"+puzzle.hint)
+alert("Hint: "+puzzle.hint)
 
 }
 
